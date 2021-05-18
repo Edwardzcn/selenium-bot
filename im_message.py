@@ -16,7 +16,7 @@ from pathlib import Path
 
 
 def set_chrome_options(cfg):
-    if cfg['chrome']['with_ui'] == 'true':
+    if cfg['chrome']['with_ui'] == True:
         return None
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')
