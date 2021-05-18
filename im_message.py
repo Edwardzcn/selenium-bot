@@ -56,7 +56,7 @@ def logger_config(cfg):
     logger = logging.getLogger(log_name)
     # 获取文件日志句柄并设置日志级别，第二层过滤
     if log_path == None:
-        log_path = Path.cwd()/('msg_from_'+ cfg['page']['st_num'] + '_to_' + cfg['page']['ed_num'] +'.log')
+        log_path = Path.cwd()/('msg_from_'+ str(cfg['page']['st_num']) + '_to_' + str(cfg['page']['ed_num']) +'.log')
     else:
         log_path = Path.cwd()/log_path
     # console相当于控制台输出
@@ -189,8 +189,8 @@ def main():
             # 遇到问题，休息30mins，page_num ++ 再继续
             logger.error("Error in page{}:".format(pg_num))
             logger.error(e)
-            logger.error("Rest for 30mins")
-            sleep(2000)
+            logger.error("Rest for 1h")
+            sleep(4000)
             pg_num += 1
             logger.error("Omit the error. Continue")
             continue
