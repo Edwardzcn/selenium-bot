@@ -1,0 +1,30 @@
+# This is the configuration for py script using selenium
+
+name: Edwardzcn
+email: edwardzcn98@gmail.com
+
+login:
+  # User id and password to login
+  id: 
+  pwd: 
+  # Log in url
+  url: 
+main:
+  # Main test page url
+  url: 
+
+#######################
+# Log configuration
+#######################
+log:
+  # log path
+  path: 'im_message.log'
+  # log name
+  name: 'IM'
+  # log level
+  # level: DEBUG
+  level: INFO
+
+page:
+  st_num: 73
+  ed_num: 100
