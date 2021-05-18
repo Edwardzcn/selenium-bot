@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env python
 
 # 自动表单
 # 基于python + selenium
