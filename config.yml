@@ -3,12 +3,16 @@
 name: Edwardzcn
 email: edwardzcn98@gmail.com
 
+chrome:
+  with_ui: true
+
 login:
   # User id and password to login
   id: 
   pwd: 
   # Log in url
   url: 
+
 main:
   # Main test page url
   url: 
@@ -18,7 +22,7 @@ main:
 #######################
 log:
   # log path
-  path: 'im_message.log'
+  path:
   # log name
   name: 'IM'
   # log level
@@ -26,5 +30,5 @@ log:
   level: INFO
 
 page:
-  st_num: 73
-  ed_num: 100
+  st_num: 110
+  ed_num: 200

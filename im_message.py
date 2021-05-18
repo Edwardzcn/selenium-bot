@@ -14,10 +14,16 @@ import logging
 import yaml
 from pathlib import Path
 
-# chrome_options = webdriver.ChromeOptions()
-# chrome_options.add_argument('--headless')
-# chrome_options.add_argument('--disable-gpu')
-# chrome_options.add_argument("user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'")
+
+def set_chrome_options(cfg):
+    if cfg['chrome']['with_ui'] == 'true':
+        return None
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument(
+        "user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'")
+    return chrome_options
 
 
 def filter_emoji(desstr, restr=''):
@@ -39,21 +45,18 @@ def get_random_message(user_name):
     return message_title+message_body
 
 
-def logger_config(log_path, log_name, log_level):
-    '''
-    配置log
-    :param log_path: 输出log路径
-    :param log_name: 记录中name，可随意
-    :return:
-    '''
+def logger_config(cfg):
     '''
     logger是日志对象，handler是流处理器，console是控制台输出（没有console也可以，将不会在控制台输出，会在日志文件中输出）
     '''
     # 获取logger对象,取名
+    log_path=cfg['log']['path']
+    log_name=cfg['log']['name']
+    log_level=cfg['log']['level']
     logger = logging.getLogger(log_name)
     # 获取文件日志句柄并设置日志级别，第二层过滤
     if log_path == None:
-        log_path = Path.cwd()/'im_message.log'
+        log_path = Path.cwd()/('msg_from_'+ cfg['page']['st_num'] + '_to_' + cfg['page']['ed_num'] +'.log')
     else:
         log_path = Path.cwd()/log_path
     # console相当于控制台输出
@@ -107,14 +110,13 @@ def main():
     with open('config.yml', 'r') as stream:
         cfg = yaml.load(stream=stream, Loader=yaml.FullLoader)
     # 启动日志
-    logger = logger_config(log_path=cfg['log']['path'],
-                           log_name=cfg['log']['name'],
-                           log_level=cfg['log']['level'])
+    logger = logger_config(cfg)
     logger.debug("%v", cfg)
 
     # 启动 Chrome Driver
     try:
-        driver = webdriver.Chrome()
+        opts = set_chrome_options(cfg)
+        driver = webdriver.Chrome(chrome_options=opts)
     except Error as e:
         logger.error("Fail to start the Chrome driver.")
         logger.error(e)
@@ -192,5 +194,6 @@ def main():
             pg_num += 1
             logger.error("Omit the error. Continue")
             continue
+
 
 main()
